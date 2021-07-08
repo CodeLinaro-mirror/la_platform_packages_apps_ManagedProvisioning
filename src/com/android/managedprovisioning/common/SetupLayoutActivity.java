@@ -19,6 +19,7 @@ package com.android.managedprovisioning.common;
 import static com.android.internal.logging.nano.MetricsProto.MetricsEvent.VIEW_UNKNOWN;
 import static com.android.managedprovisioning.provisioning.Constants.LOCK_TO_PORTRAIT_MODE;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -30,12 +31,15 @@ import android.os.Bundle;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.managedprovisioning.ManagedProvisioningBaseApplication;
+import com.android.managedprovisioning.ManagedProvisioningScreens;
 import com.android.managedprovisioning.R;
 import com.android.managedprovisioning.analytics.MetricsWriterFactory;
 import com.android.managedprovisioning.analytics.ProvisioningAnalyticsTracker;
 import com.android.managedprovisioning.analytics.TimeLogger;
 import com.android.managedprovisioning.common.ThemeHelper.DefaultNightModeChecker;
 import com.android.managedprovisioning.common.ThemeHelper.DefaultSetupWizardBridge;
+import com.android.managedprovisioning.preprovisioning.EncryptionController;
 
 /**
  * Base class for setting up the layout.
@@ -64,7 +68,9 @@ public abstract class SetupLayoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mTransitionHelper.applyTransitions(this);
+        if (!isWaitingScreen()) {
+            mTransitionHelper.applyContentScreenTransitions(this);
+        }
         setTheme(mThemeHelper.inferThemeResId(this, getIntent()));
         mThemeHelper.setupDynamicColors(this);
         super.onCreate(savedInstanceState);
@@ -76,6 +82,14 @@ public abstract class SetupLayoutActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         logMetrics();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isWaitingScreen()) {
+            mTransitionHelper.applyWaitingScreenTransitions(this);
+        }
     }
 
     private void logMetrics() {
@@ -109,6 +123,27 @@ public abstract class SetupLayoutActivity extends AppCompatActivity {
 
     protected TransitionHelper getTransitionHelper() {
         return mTransitionHelper;
+    }
+
+    private ManagedProvisioningBaseApplication getBaseApplication() {
+        return ((ManagedProvisioningBaseApplication) getApplication());
+    }
+
+    protected Class<? extends Activity> getActivityForScreen(ManagedProvisioningScreens screen) {
+        return getBaseApplication().getActivityClassForScreen(screen);
+    }
+
+    protected EncryptionController getEncryptionController() {
+        return getBaseApplication().getEncryptionController();
+    }
+
+    /**
+     * Whether the current screen is a waiting screen.
+     *
+     * <p>A waiting screen is a screen that shows a spinner and not content.
+     */
+    protected boolean isWaitingScreen() {
+        return false;
     }
 
     /**
