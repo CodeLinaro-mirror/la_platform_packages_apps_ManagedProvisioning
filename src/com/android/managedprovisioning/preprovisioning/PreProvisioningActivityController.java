@@ -105,8 +105,6 @@ import java.util.List;
  * @see PreProvisioningActivity
  */
 public class PreProvisioningActivityController {
-    private static final String EXTRA_IS_SETUP_FLOW = "isSetupFlow";
-
     private final Context mContext;
     private final Ui mUi;
     private final Utils mUtils;
@@ -276,6 +274,13 @@ public class PreProvisioningActivityController {
             return;
         }
 
+        if (!isIntentActionValid(intent.getAction())) {
+            ProvisionLogger.loge(
+                    ACTION_PROVISION_MANAGED_DEVICE + " is no longer a supported intent action.");
+            mUi.abortProvisioning();
+            return;
+        }
+
         if (isDeviceOwnerProvisioning()) {
             // TODO: make a general test based on deviceAdminDownloadInfo field
             // PO doesn't ever initialize that field, so OK as a general case
@@ -318,7 +323,7 @@ public class PreProvisioningActivityController {
             if (mUtils.shouldShowOwnershipDisclaimerScreen(params)) {
                 mUi.showOwnershipDisclaimerScreen(params);
             } else {
-                startNfcFlow(intent);
+                startNfcFlow();
             }
         } else if (isProfileOwnerProvisioning()) {
             startManagedProfileFlow();
@@ -328,16 +333,14 @@ public class PreProvisioningActivityController {
         }
     }
 
-    void startNfcFlow(Intent intent) {
-        ProvisionLogger.logi("Starting the NFC provisioning flow.");
-        addAdditionalNfcProvisioningExtras(intent);
-        updateProvisioningFlowState(FLOW_TYPE_LEGACY);
-        showUserConsentScreen();
+    private boolean isIntentActionValid(String action) {
+        return !ACTION_PROVISION_MANAGED_DEVICE.equals(action);
     }
 
-    // TODO(178822333): Remove NFC-specific logic after adding support for the admin-integrated flow
-    private void addAdditionalNfcProvisioningExtras(Intent intent) {
-        intent.putExtra(EXTRA_IS_SETUP_FLOW, true);
+    void startNfcFlow() {
+        ProvisionLogger.logi("Starting the NFC provisioning flow.");
+        updateProvisioningFlowState(FLOW_TYPE_LEGACY);
+        showUserConsentScreen();
     }
 
     private void startManagedProfileFlow() {

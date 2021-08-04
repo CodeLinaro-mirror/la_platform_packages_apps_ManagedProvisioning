@@ -41,6 +41,7 @@
     <string name="ok_setup" msgid="4593707675416137504">"OK"</string>
     <string name="user_consent_msg" msgid="8820951802130353584">"Roziman"</string>
     <string name="url_error" msgid="5958494012986243186">"Bu havolani ko‘rsatib bo‘lmadi."</string>
+    <string name="navigation_button_description" msgid="6106309408994461239">"Tepaga"</string>
     <string name="terms" msgid="8295436105384703903">"Shartlar"</string>
     <string name="work_profile_info" msgid="5433388376309583996">"Ishchi profilga oid ma’lumotlar"</string>
     <string name="managed_device_info" msgid="1529447646526616811">"Boshqariluvchi qurilmaga oid ma’lumotlar"</string>
@@ -164,7 +165,7 @@
     <string name="work_profile_provisioning_accept_header_post_suw" msgid="1353127953275291089">"Keling, ishchi profilingizni sozlaymiz"</string>
     <string name="work_profile_provisioning_step_1_header" msgid="7914961694921466366">"Ishga oid ilovalar ishchi profilda saqlanadi"</string>
     <string name="work_profile_provisioning_step_2_header" msgid="6001172190404670248">"Ishni tugatganingizdan keyin ishchi ilovalarni pauza qilish"</string>
-    <string name="work_profile_provisioning_step_3_header" msgid="4316106639726774330">"Ish profilingizdagi maʼlumotlar faqat AT administratoringizga koʻrinadi"</string>
+    <string name="work_profile_provisioning_step_3_header" msgid="4316106639726774330">"Ish profilingizdagi maʼlumotlar faqat administratoringizga koʻrinadi"</string>
     <string name="work_profile_provisioning_progress_label" msgid="2627905308998389193">"Ish profilingiz sozlanmoqda…"</string>
     <string name="work_profile_provisioning_summary" msgid="3436190271657388747">"Ishga oid ilovalar ish profilida saqlanadi. Ishni tugatganingizdan keyin ishga oid ilovalarni pauza qilishingiz mumkin. Ish profilingizdagi maʼlumotlar faqat AT administratoringizga koʻrinadi."</string>
     <string name="fully_managed_device_provisioning_accept_header" msgid="2944032660440403130">"Keling, ishchi qurilmangizni sozlaymiz"</string>
