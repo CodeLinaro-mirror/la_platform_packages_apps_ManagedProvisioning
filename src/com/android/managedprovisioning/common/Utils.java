@@ -23,7 +23,6 @@ import static android.app.admin.DevicePolicyManager.FLAG_SUPPORTED_MODES_DEVICE_
 import static android.app.admin.DevicePolicyManager.FLAG_SUPPORTED_MODES_ORGANIZATION_OWNED;
 import static android.content.pm.PackageManager.MATCH_HIDDEN_UNTIL_INSTALLED_COMPONENTS;
 import static android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES;
-
 import static java.util.Objects.requireNonNull;
 
 import android.annotation.NonNull;
@@ -357,9 +356,12 @@ public class Utils {
      * <p>Note that we currently only support one managed profile per device.
      */
     // TODO: Add unit tests
+    @Nullable
     public UserHandle getManagedProfile(Context context) {
         DevicePolicyManager devicePolicyManager =
-                context.getSystemService(DevicePolicyManager.class);
+                requireNonNull(
+                        /* obj= */ context.getSystemService(DevicePolicyManager.class),
+                        /* message= */ "Unable to obtain DevicePolicyManager");
         int currentUserId = UserHandle.myUserId();
         List<UserHandle> managedProfiles =
                 devicePolicyManager.getPolicyManagedProfiles(UserHandle.of(currentUserId));
