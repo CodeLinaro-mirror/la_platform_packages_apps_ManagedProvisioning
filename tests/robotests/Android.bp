@@ -18,14 +18,14 @@ android_robolectric_test {
 
     // Include the testing libraries
     libs: [
-        "robolectric_android-all-stub",
-        "Robolectric_all-target",
         "mockito-robolectric-prebuilt",
         "truth",
         "androidx.test.core",
         "androidx.test.rules",
         "androidx.core_core",
         "testng", // used only for assertThrows
+        "android_onboarding.contracts.testing",
+        "hilt_android_testing",
     ],
 
     static_libs: [
@@ -35,4 +35,6 @@ android_robolectric_test {
     ],
 
     instrumentation_for: "ManagedProvisioning",
+
+    upstream: true,
 }
